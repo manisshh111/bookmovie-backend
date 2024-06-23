@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.manish.bookmyshow.model.Payment;
 
-public interface PaymentRepository extends JpaRepository<Long, Payment>{
+public interface PaymentRepository extends JpaRepository<Payment, Long>{
 
 }
