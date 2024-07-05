@@ -1,9 +1,11 @@
 package com.manish.bookmyshow.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manish.bookmyshow.model.City;
 import com.manish.bookmyshow.repository.CityRepository;
+import com.manish.bookmyshow.service.CityService;
 
 @RestController
 @RequestMapping("/api/v1/city")
+
 public class CityControlller {
 
 	//CreateCity
@@ -29,9 +33,12 @@ public class CityControlller {
 	@Autowired
 	CityRepository cityRepository;
 	
+	@Autowired
+	CityService cityService;
+	
 	@PostMapping("/add")
 	public City createCity(@RequestBody City city) {
-		return cityRepository.save(city);
+		return cityService.createCity(city);
 		
 	}
 	
@@ -65,7 +72,7 @@ public class CityControlller {
 	
 	@GetMapping("/get/{cityName}")
 	public City getCityByName(@PathVariable String cityName) {
-		Optional<City> city= cityRepository.findByName(cityName);
+		Optional<City> city= cityRepository.findByCityName(cityName);
 		
 		if(city.isPresent()) {
 			return city.get();
@@ -73,6 +80,22 @@ public class CityControlller {
 		
 		return null;
 	}
+	@GetMapping("/cities")
+	public List<City> getCities() {
+		List<City> cities = cityRepository.findAll();
+		System.out.println("printing cities");
+		for (City city : cities) {
+		
+            System.out.println(city.toString());
+        }
+		
+		
+		return cities;
+	}
+	
+	
+	
+	
 	
 	@DeleteMapping("/delete/{id}")
 	public String deleteById(@PathVariable Long id) {

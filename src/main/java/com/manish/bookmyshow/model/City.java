@@ -23,7 +23,7 @@ public class City {
 	Long id;
 	
 	@Column(unique = true)
-	String name;
+	String cityName;
 	
 	String state;
 	
@@ -41,12 +41,12 @@ public class City {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getCityName() {
+		return cityName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
 	public String getState() {
@@ -73,16 +73,10 @@ public class City {
 		this.theatres = theatres;
 	}
 
-	@Override
-	public String toString() {
-		return "City [id=" + id + ", name=" + name + ", state=" + state + ", country=" + country + ", theatres="
-				+ theatres + "]";
-	}
-
-	public City(Long id, String name, String state, String country, List<Theatre> theatres) {
+	public City(Long id, String cityName, String state, String country, List<Theatre> theatres) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.cityName = cityName;
 		this.state = state;
 		this.country = country;
 		this.theatres = theatres;
@@ -91,6 +85,13 @@ public class City {
 	public City() {
 		super();
 	}
+
+	@Override
+	public String toString() {
+		return "City [id=" + id + ", cityName=" + cityName + ", state=" + state + ", country=" + country + ", theatres="
+				+ theatres + "]";
+	}
+
 	
 	
 	

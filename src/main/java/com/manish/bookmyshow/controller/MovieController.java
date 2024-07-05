@@ -64,6 +64,7 @@ public class MovieController {
 		return null;
 	}
 	
+	
 	@GetMapping("/get/{movieName}")
 	public Movie getmovieByName(@PathVariable String movieName) {
 		Optional<Movie> movie= movieRepository.findByName(movieName);

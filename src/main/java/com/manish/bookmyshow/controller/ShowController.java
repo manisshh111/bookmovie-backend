@@ -53,7 +53,7 @@ public class ShowController {
 //		set showSeats - seatNumber, category, price
 		
 		//getAllSeatsByScreenId
-		screenRepository.findById(showDto.getScreenId());
+		//List<Seat> seats12= screenRepository.findById(showDto.getScreenId());
 		
 		List<ShowSeat> showSeats = new ArrayList<ShowSeat>();
 		
