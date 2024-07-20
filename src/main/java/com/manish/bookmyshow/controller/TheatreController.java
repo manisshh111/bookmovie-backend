@@ -1,9 +1,13 @@
 package com.manish.bookmyshow.controller; 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.manish.bookmyshow.DTO.ScreenDTO;
+import com.manish.bookmyshow.DTO.SeatDTO;
 import com.manish.bookmyshow.DTO.TheatreDTO;
+import com.manish.bookmyshow.model.Category;
+import com.manish.bookmyshow.model.City;
 import com.manish.bookmyshow.model.Screen;
+import com.manish.bookmyshow.model.Seat;
 import com.manish.bookmyshow.model.Theatre;
 import com.manish.bookmyshow.repository.CategoryRepository;
 import com.manish.bookmyshow.repository.CityRepository;
@@ -51,32 +61,76 @@ public class TheatreController {
 	SeatRepository seatRepository;
 	
 	@PostMapping("/add")
-	public Theatre createTheatre(@RequestBody TheatreDTO theatreDTO) {
-		Theatre theatre = new Theatre();
-		theatre.setName(theatreDTO.getName());
-		theatre.setAddress(theatreDTO.getAddress());
-		theatre.setCity((cityRepository.findById(theatreDTO.getCityId())).get());
-		return theatreRepository.save(theatre);
+	public ResponseEntity<?> createTheatre(@RequestBody TheatreDTO theatreDTO) {
+		//create theatre
+		//create screen
+		//create seats
+		Theatre t1 = new Theatre();
+		t1.setName(theatreDTO.getTheatreName());
+		Long cityId = Long.valueOf(theatreDTO.getCityId()).longValue();
+		Optional<City> cityOpt = cityRepository.findById(cityId);
+
+		if (!cityOpt.isPresent()) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("City not found");
+		}
+
+		City city = cityOpt.get();
+		t1.setCity(city);
+
+		t1.setAddress(theatreDTO.getAddress());
+		List<Screen> screens = new ArrayList<Screen>();
+		List<ScreenDTO> screensDto = theatreDTO.getScreens();
+		for (ScreenDTO screenDto : screensDto) {
+			
+			List<Seat> seats = new ArrayList<Seat>();
+			List<SeatDTO> seatsDto = screenDto.getSeats();
+				
+				for(SeatDTO seatDto: seatsDto) {
+				
+					for(char j = seatDto.getFromRow(); j<=seatDto.getToRow(); j++) {
+						
+						for(int i=seatDto.getFromSeat(); i<=seatDto.getToSeat(); i++) {
+							
+							String seatNumber = j+String.valueOf(i);
+
+							Long categoryId = Long.valueOf(seatDto.getCategoryId()).longValue();
+							Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
+
+							if (!categoryOpt.isPresent()) {
+							    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Category not found");
+							}
+
+							Category category = categoryOpt.get();
+							
+							
+							Seat s = new Seat();
+							s.setCategory(category);
+							s.setSeatNumber(seatNumber);
+							seats.add(s);
+						}
+					}
+				}
+				
+				
+				Screen screen = new Screen();
+				screen.setName(screenDto.getScreenName());
+				screen.setSeats(seats);
+				screens.add(screen);
+		}
+		
+		t1.setScreens(screens);
+		
+		
+		
+		Theatre resTheatre =  theatreRepository.save(t1);
+		return ResponseEntity.status(HttpStatus.CREATED).body(resTheatre);
 		
 	}
 	
 	@PutMapping("/update")
 	public Theatre updateTheatre(@RequestBody TheatreDTO theatreDTO) {
-		Theatre theatre = new Theatre();
-		theatre.setId(theatreDTO.getId());
-		theatre.setName(theatreDTO.getName());
-		theatre.setAddress(theatreDTO.getAddress());
-		theatre.setCity((cityRepository.findById(theatreDTO.getCityId())).get());
 		
 		
-		Optional<Theatre> theatreRes = theatreRepository.findById(theatre.getId());
-		if(theatreRes.isPresent()) {
-			//update
-			return theatreRepository.save(theatre);
-		}
-		else {
-			//Response - city doesn't exist
-		}
 		return null;
 		
 	}

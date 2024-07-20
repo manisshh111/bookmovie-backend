@@ -3,54 +3,43 @@ package com.manish.bookmyshow.DTO;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ScreenDTO {
 	
-	String name;
+//	  screenName: '',
+//	  seats: []
 	
-	Long theatreId;
-
-	Map<String, List<String>> categoryToSeatNumber;
-
-	public String getName() {
-		return name;
+	String screenName;
+	
+	
+	List<SeatDTO> seats;
+	public String getScreenName() {
+		return screenName;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
 	}
-
-	public Long getTheatreId() {
-		return theatreId;
+	public List<SeatDTO> getSeats() {
+		return seats;
 	}
-
-	public void setTheatreId(Long theatreId) {
-		this.theatreId = theatreId;
+	public void setSeats(List<SeatDTO> seats) {
+		this.seats = seats;
 	}
-
-	public Map<String, List<String>> getCategoryToSeatNumber() {
-		return categoryToSeatNumber;
-	}
-
-	public void setCategoryToSeatNumber(Map<String, List<String>> categoryToSeatNumber) {
-		this.categoryToSeatNumber = categoryToSeatNumber;
-	}
-
-	@Override
-	public String toString() {
-		return "ScreenDTO [name=" + name + ", theatreId=" + theatreId + ", categoryToSeatNumber=" + categoryToSeatNumber
-				+ "]";
-	}
-
-	public ScreenDTO(String name, Long theatreId, Map<String, List<String>> categoryToSeatNumber) {
+	public ScreenDTO(String screenName, List<SeatDTO> seats) {
 		super();
-		this.name = name;
-		this.theatreId = theatreId;
-		this.categoryToSeatNumber = categoryToSeatNumber;
+		this.screenName = screenName;
+		this.seats = seats;
 	}
-
 	public ScreenDTO() {
 		super();
 	}
+	@Override
+	public String toString() {
+		return "ScreenDTO [screenName=" + screenName + ", seats=" + seats + "]";
+	}
+	
+	
 	
 	
 	

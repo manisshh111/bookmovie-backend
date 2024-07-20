@@ -1,5 +1,6 @@
 package com.manish.bookmyshow.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.manish.bookmyshow.model.Category;
 import com.manish.bookmyshow.model.Movie;
 import com.manish.bookmyshow.repository.MovieRepository;
 
@@ -85,6 +88,19 @@ public class MovieController {
         } catch (EmptyResultDataAccessException e) {
             return "movie with ID " + id + " does not exist.";
         }
+	}
+	
+	@GetMapping("/movies")
+	public List<Movie> getMovies() {
+		List<Movie> movies = movieRepository.findAll();
+		System.out.println("printing categories");
+		for (Movie movie :movies ) {
+		
+            System.out.println(movie.toString());
+        }
+		
+		
+		return movies;
 	}
 	
 	

@@ -19,7 +19,7 @@ public class Movie {
 	
 	String description;
 	
-	int rating;
+	double rating;
 	
 	int duration;
 
@@ -47,11 +47,11 @@ public class Movie {
 		this.description = description;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
@@ -63,7 +63,7 @@ public class Movie {
 		this.duration = duration;
 	}
 
-	public Movie(Long id, String name, String description, int rating, int duration) {
+	public Movie(Long id, String name, String description, double rating, int duration) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -81,6 +81,7 @@ public class Movie {
 		return "Movie [id=" + id + ", name=" + name + ", description=" + description + ", rating=" + rating
 				+ ", duration=" + duration + "]";
 	}
+
 	
 	
 	

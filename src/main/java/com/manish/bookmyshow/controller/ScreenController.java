@@ -54,48 +54,48 @@ public class ScreenController {
 	SeatRepository seatRepository;
 	
 	
-	@PostMapping("/add")
-	public Screen createScreen(@RequestBody ScreenDTO screenDTO) {
-		Screen screen = new Screen();
-		screen.setName(screenDTO.getName());
-		screen.setTheatre(theatreRepository.findById(screenDTO.getTheatreId()).get());
-		
-		List<Seat> seats = new ArrayList<Seat>();
-		Screen s = new  Screen();
-		Map<String, List<String>> categoryToSeatNumber = screenDTO.getCategoryToSeatNumber();
-		
-		for (Map.Entry<String, List<String>> entry : categoryToSeatNumber.entrySet()) {
-
-		    String categoryName = entry.getKey();
-		    Category category = new Category();
-		    category.setCategoryName(categoryName);
-		    Category c = categoryRepository.save(category);
-		     s=screenRepository.save(screen);
-		    
-		    List<String> seatList = entry.getValue();
-		    
-		    for(String seat: seatList) {
-		    	Seat seat1 = new Seat();
-		    	seat1.setSeatNumber(seat);
-		    	seat1.setCategory(category);
-		    	seat1.setScreen(s);
-		    	seatRepository.save(seat1);
-		    	seats.add(seat1);
-		    }
-		    
-		   
-		}
-		
-		 s.setSeats(seats);
-		  return s;
-		
-		
-//		return null;
-		
-	}
-	
-
-	
+//	@PostMapping("/add")
+//	public Screen createScreen(@RequestBody ScreenDTO screenDTO) {
+//		Screen screen = new Screen();
+//		screen.setName(screenDTO.getName());
+//		screen.setTheatre(theatreRepository.findById(screenDTO.getTheatreId()).get());
+//		
+//		List<Seat> seats = new ArrayList<Seat>();
+//		Screen s = new  Screen();
+//		Map<String, List<String>> categoryToSeatNumber = screenDTO.getCategoryToSeatNumber();
+//		
+//		for (Map.Entry<String, List<String>> entry : categoryToSeatNumber.entrySet()) {
+//
+//		    String categoryName = entry.getKey();
+//		    Category category = new Category();
+//		    category.setCategoryName(categoryName);
+//		    Category c = categoryRepository.save(category);
+//		     s=screenRepository.save(screen);
+//		    
+//		    List<String> seatList = entry.getValue();
+//		    
+//		    for(String seat: seatList) {
+//		    	Seat seat1 = new Seat();
+//		    	seat1.setSeatNumber(seat);
+//		    	seat1.setCategory(category);
+//		    	seat1.setScreen(s);
+//		    	seatRepository.save(seat1);
+//		    	seats.add(seat1);
+//		    }
+//		    
+//		   
+//		}
+//		
+//		 s.setSeats(seats);
+//		  return s;
+//		
+//		
+////		return null;
+//		
+//	}
+//	
+//
+//	
 	
 	
 	
