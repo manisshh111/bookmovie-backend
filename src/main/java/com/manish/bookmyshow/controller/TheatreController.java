@@ -78,10 +78,15 @@ public class TheatreController {
 		t1.setCity(city);
 
 		t1.setAddress(theatreDTO.getAddress());
+		Theatre resTheatre =  theatreRepository.save(t1);
+		
 		List<Screen> screens = new ArrayList<Screen>();
 		List<ScreenDTO> screensDto = theatreDTO.getScreens();
 		for (ScreenDTO screenDto : screensDto) {
-			
+			Screen screen = new Screen();
+			screen.setName(screenDto.getScreenName());
+			screen.setTheatre(resTheatre);
+			Screen screenRes= screenRepository.save(screen);
 			List<Seat> seats = new ArrayList<Seat>();
 			List<SeatDTO> seatsDto = screenDto.getSeats();
 				
@@ -106,23 +111,15 @@ public class TheatreController {
 							Seat s = new Seat();
 							s.setCategory(category);
 							s.setSeatNumber(seatNumber);
-							seats.add(s);
+							s.setScreen(screenRes);
+							seatRepository.save(s);
+
 						}
 					}
 				}
-				
-				
-				Screen screen = new Screen();
-				screen.setName(screenDto.getScreenName());
-				screen.setSeats(seats);
-				screens.add(screen);
+
 		}
 		
-		t1.setScreens(screens);
-		
-		
-		
-		Theatre resTheatre =  theatreRepository.save(t1);
 		return ResponseEntity.status(HttpStatus.CREATED).body(resTheatre);
 		
 	}

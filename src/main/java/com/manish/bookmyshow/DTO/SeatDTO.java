@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 public class SeatDTO {
 
-	@NotNull
 	Long categoryId;
 	char fromRow;
 	int fromSeat;
