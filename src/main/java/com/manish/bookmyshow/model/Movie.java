@@ -22,6 +22,8 @@ public class Movie {
 	double rating;
 	
 	int duration;
+	
+	String posterImageUrl;
 
 	public Long getId() {
 		return id;
@@ -63,13 +65,22 @@ public class Movie {
 		this.duration = duration;
 	}
 
-	public Movie(Long id, String name, String description, double rating, int duration) {
+	public String getPosterImageUrl() {
+		return posterImageUrl;
+	}
+
+	public void setPosterImageUrl(String posterImageUrl) {
+		this.posterImageUrl = posterImageUrl;
+	}
+
+	public Movie(Long id, String name, String description, double rating, int duration, String posterImageUrl) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.rating = rating;
 		this.duration = duration;
+		this.posterImageUrl = posterImageUrl;
 	}
 
 	public Movie() {
@@ -79,9 +90,10 @@ public class Movie {
 	@Override
 	public String toString() {
 		return "Movie [id=" + id + ", name=" + name + ", description=" + description + ", rating=" + rating
-				+ ", duration=" + duration + "]";
+				+ ", duration=" + duration + ", posterImageUrl=" + posterImageUrl + "]";
 	}
 
+	
 	
 	
 	

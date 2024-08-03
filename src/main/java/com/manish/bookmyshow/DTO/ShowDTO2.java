@@ -1,16 +1,17 @@
 package com.manish.bookmyshow.DTO;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
-public class ShowDTO {
+public class ShowDTO2 {
 	Long id;
 	
 	Long movieId;
 	
 	Long screenId;
 	
-	Date startTime;
+	LocalDateTime startTime;
 	
 	Map<Long, Integer> categoryIdToPrice;
 
@@ -38,11 +39,11 @@ public class ShowDTO {
 		this.screenId = screenId;
 	}
 
-	public Date getStartTime() {
+	public LocalDateTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
 
@@ -54,7 +55,7 @@ public class ShowDTO {
 		this.categoryIdToPrice = categoryIdToPrice;
 	}
 
-	public ShowDTO(Long id, Long movieId, Long screenId, Date startTime, Map<Long, Integer> categoryIdToPrice) {
+	public ShowDTO2(Long id, Long movieId, Long screenId, LocalDateTime startTime, Map<Long, Integer> categoryIdToPrice) {
 		super();
 		this.id = id;
 		this.movieId = movieId;
@@ -63,7 +64,7 @@ public class ShowDTO {
 		this.categoryIdToPrice = categoryIdToPrice;
 	}
 
-	public ShowDTO() {
+	public ShowDTO2() {
 		super();
 	}
 

@@ -3,8 +3,11 @@ package com.manish.bookmyshow.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manish.bookmyshow.DTO.ScreenDTO;
 import com.manish.bookmyshow.model.Category;
+import com.manish.bookmyshow.model.City;
 import com.manish.bookmyshow.model.Screen;
 import com.manish.bookmyshow.model.Seat;
+import com.manish.bookmyshow.model.Theatre;
 import com.manish.bookmyshow.repository.CategoryRepository;
 import com.manish.bookmyshow.repository.CityRepository;
 import com.manish.bookmyshow.repository.ScreenRepository;
@@ -52,6 +57,18 @@ public class ScreenController {
 	
 	@Autowired
 	SeatRepository seatRepository;
+	
+	
+	//Get screen by theatre ID
+	
+	@GetMapping("/get/{theatreId}")
+	public List<Screen> getScreensByTheatre(@PathVariable Long theatreId) {
+		
+		List<Screen> screens = screenRepository.findScreensByTheatreId(theatreId);
+		return screens;
+	}
+	
+	
 	
 	
 //	@PostMapping("/add")

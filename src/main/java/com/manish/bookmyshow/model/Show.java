@@ -1,5 +1,6 @@
 package com.manish.bookmyshow.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Show {
 	Screen screen;
 	
 	@Column(name = "start_time", nullable = false)
-	Date startTime;
+	LocalDateTime startTime;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
@@ -68,11 +69,11 @@ public class Show {
 		this.screen = screen;
 	}
 
-	public Date getStartTime() {
+	public LocalDateTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
 
@@ -92,7 +93,7 @@ public class Show {
 		this.bookings = bookings;
 	}
 
-	public Show(Long id, Movie movie, Screen screen, Date startTime, List<ShowSeat> seatForShows,
+	public Show(Long id, Movie movie, Screen screen, LocalDateTime startTime, List<ShowSeat> seatForShows,
 			List<Booking> bookings) {
 		super();
 		this.id = id;
@@ -112,9 +113,7 @@ public class Show {
 		return "Show [id=" + id + ", movie=" + movie + ", screen=" + screen + ", startTime=" + startTime
 				+ ", seatForShows=" + seatForShows + ", bookings=" + bookings + "]";
 	}
-	
-	
-	
+
 	
 	
 	

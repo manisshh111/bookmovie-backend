@@ -1,5 +1,7 @@
 package com.manish.bookmyshow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class ShowSeat {
 	
 	@ManyToOne
 	@JoinColumn(name = "show_id")
+	@JsonIgnore
 	Show show;
 	
 	@ManyToOne

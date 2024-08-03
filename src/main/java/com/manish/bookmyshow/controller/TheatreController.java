@@ -167,6 +167,19 @@ public class TheatreController {
 		return null;
 	}
 	
+	@GetMapping("/theatres")
+	public List<Theatre> getTheatres() {
+		List<Theatre> theatres = theatreRepository.findAll();
+		System.out.println("printing cities");
+		for (Theatre theatre : theatres) {
+		
+            System.out.println(theatre.toString());
+        }
+		
+		
+		return theatres;
+	}
+	
 	
 	@GetMapping("/get/screens/{id}")
 	public List<Screen> getScreensByTheatreId(@PathVariable Long id){
@@ -178,6 +191,13 @@ public class TheatreController {
 		}
 
 		return null;
+	}
+	
+	@GetMapping("/get/theatres/{cityId}")
+	public List<Theatre> getTheatresByCity(@PathVariable Long cityId) {
+		
+		List<Theatre> theatres = theatreRepository.findTheatresByCityId(cityId);
+		return theatres;
 	}
 	
 }

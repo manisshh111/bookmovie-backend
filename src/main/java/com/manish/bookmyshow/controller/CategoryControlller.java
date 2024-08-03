@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manish.bookmyshow.model.Category;
+import com.manish.bookmyshow.model.Theatre;
 import com.manish.bookmyshow.repository.CategoryRepository;
 
 @RestController
@@ -94,6 +95,13 @@ public class CategoryControlller {
 	}
 	
 	
+	@GetMapping("/get/categories/{screenId}")
+	public List<Category> getcategoriesByScreen(@PathVariable Long screenId) {
+		
+		List<Category> categories = categoryRepository.findCategoriesByScreenId(screenId);
+		return categories;
+	}
+	
 	
 	
 	
@@ -107,6 +115,8 @@ public class CategoryControlller {
             return "category with ID " + id + " does not exist.";
         }
 	}
+	
+	
 	
 	
 	
