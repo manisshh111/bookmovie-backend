@@ -1,7 +1,5 @@
 package com.manish.bookmyshow.DTO;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 public class SeatDTO {
 
 	Long categoryId;

@@ -56,47 +56,47 @@ public class ShowController {
 	@Autowired
 	ShowSeatRepository showSeatRepository;
 	
-	@PostMapping("/add")
-	public Show createShow(@RequestBody ShowDTO2 showDto) {
-		
-		Show show = new Show();
-		show.setScreen(screenRepository.findById(showDto.getScreenId()).get());
-		show.setMovie(movieRepository.findById(showDto.getMovieId()).get());
-		show.setStartTime(showDto.getStartTime());
-		
-		Show s = showRepository.save(show);
-		
-//		set showSeats - seatNumber, category, price
-		
-		//getAllSeatsByScreenId
-		//List<Seat> seats12= screenRepository.findById(showDto.getScreenId());
-		
-		List<ShowSeat> showSeats = new ArrayList<ShowSeat>();
-		
-		Map<Long, Integer> categoryIdToPrice = showDto.getCategoryIdToPrice();
-		
-		for (Map.Entry<Long, Integer> entry : categoryIdToPrice.entrySet()) {
-			
-			List<Seat> seatsByCategory = seatRepository.findByCategoryId(entry.getKey());
-			Integer price = entry.getValue();
-			
-			for(Seat s1: seatsByCategory) {
-				
-				ShowSeat showSeat = new ShowSeat();
-				showSeat.setCategory(s1.getCategory());
-				showSeat.setSeatNumber(s1.getSeatNumber());
-				showSeat.setPrice(entry.getValue());
-				showSeat.setShow(s);
-				ShowSeat s2 = showSeatRepository.save(showSeat);
-				showSeats.add(s2);
-			}
-		}
-		
-		s.setSeatForShows(showSeats);
-		
-		return s;
-		
-	}
+//	@PostMapping("/add")
+//	public Show createShow(@RequestBody ShowDTO2 showDto) {
+//		
+//		Show show = new Show();
+//		show.setScreen(screenRepository.findById(showDto.getScreenId()).get());
+//		show.setMovie(movieRepository.findById(showDto.getMovieId()).get());
+//		show.setStartTime(showDto.getStartTime());
+//		
+//		Show s = showRepository.save(show);
+//		
+////		set showSeats - seatNumber, category, price
+//		
+//		//getAllSeatsByScreenId
+//		//List<Seat> seats12= screenRepository.findById(showDto.getScreenId());
+//		
+//		List<ShowSeat> showSeats = new ArrayList<ShowSeat>();
+//		
+//		Map<Long, Integer> categoryIdToPrice = showDto.getCategoryIdToPrice();
+//		
+//		for (Map.Entry<Long, Integer> entry : categoryIdToPrice.entrySet()) {
+//			
+//			List<Seat> seatsByCategory = seatRepository.findByCategoryId(entry.getKey());
+//			Integer price = entry.getValue();
+//			
+//			for(Seat s1: seatsByCategory) {
+//				
+//				ShowSeat showSeat = new ShowSeat();
+//				showSeat.setCategory(s1.getCategory());
+//				showSeat.setSeatNumber(s1.getSeatNumber());
+//				showSeat.setPrice(entry.getValue());
+//				showSeat.setShow(s);
+//				ShowSeat s2 = showSeatRepository.save(showSeat);
+//				showSeats.add(s2);
+//			}
+//		}
+//		
+//		s.setSeatForShows(showSeats);
+//		
+//		return s;
+//		
+//	}
 
 	@PostMapping("/addShows")
 	public List<Show> createShows(@RequestBody CreateShowDTO createShowDto) {
@@ -118,7 +118,7 @@ public class ShowController {
 
 			for (CategPriceDTO categPrice : categPrices) {
 
-				List<Seat> seatsByCategory = seatRepository.findByCategoryId(categPrice.getCategoryId());
+				List<Seat> seatsByCategory = seatRepository.findByCategoryIdAndScreenId(categPrice.getCategoryId(), s.getScreen().getId());	
 				Integer price = categPrice.getPrice();
 
 				for (Seat s1 : seatsByCategory) {
@@ -133,7 +133,7 @@ public class ShowController {
 				}
 			}
 
-			s.setSeatForShows(showSeats);
+			//s.setSeatForShows(showSeats);
 			createdShows.add(s);
 
 		}
