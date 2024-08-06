@@ -133,7 +133,7 @@ public class ShowController {
 				}
 			}
 
-			//s.setSeatForShows(showSeats);
+			s.setSeatForShows(showSeats);
 			createdShows.add(s);
 
 		}

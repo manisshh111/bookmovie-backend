@@ -2,10 +2,11 @@ package com.manish.bookmyshow.DTO.bookingDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import com.manish.bookmyshow.model.ShowSeat;
 
-public class BookingDTO {
+public class SeatLayoutPageDTO {
 	
 	Long showId;
 	String movieName;
@@ -13,7 +14,7 @@ public class BookingDTO {
 	String theatreName;
 	String cityName;
 	LocalDateTime startTime;
-	List<ShowSeat> showSeats;
+	Map<SlCategoryDTO, SlSeatDTO> categSeatMap;
 	public Long getShowId() {
 		return showId;
 	}
@@ -50,14 +51,14 @@ public class BookingDTO {
 	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
-	public List<ShowSeat> getShowSeats() {
-		return showSeats;
+	public Map<SlCategoryDTO, SlSeatDTO> getCategSeatMap() {
+		return categSeatMap;
 	}
-	public void setShowSeats(List<ShowSeat> showSeats) {
-		this.showSeats = showSeats;
+	public void setCategSeatMap(Map<SlCategoryDTO, SlSeatDTO> categSeatMap) {
+		this.categSeatMap = categSeatMap;
 	}
-	public BookingDTO(Long showId, String movieName, String screenName, String theatreName, String cityName,
-			LocalDateTime startTime, List<ShowSeat> showSeats) {
+	public SeatLayoutPageDTO(Long showId, String movieName, String screenName, String theatreName, String cityName,
+			LocalDateTime startTime, Map<SlCategoryDTO, SlSeatDTO> categSeatMap) {
 		super();
 		this.showId = showId;
 		this.movieName = movieName;
@@ -65,19 +66,22 @@ public class BookingDTO {
 		this.theatreName = theatreName;
 		this.cityName = cityName;
 		this.startTime = startTime;
-		this.showSeats = showSeats;
+		this.categSeatMap = categSeatMap;
 	}
-	public BookingDTO() {
+	
+	
+	
+	public SeatLayoutPageDTO() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "BookingDTO [showId=" + showId + ", movieName=" + movieName + ", screenName=" + screenName
+		return "SeatLayoutPageDTO [showId=" + showId + ", movieName=" + movieName + ", screenName=" + screenName
 				+ ", theatreName=" + theatreName + ", cityName=" + cityName + ", startTime=" + startTime
-				+ ", showSeats=" + showSeats + "]";
+				+ ", categSeatMap=" + categSeatMap + "]";
 	}
+	
+	
+	
 
-	
-	
-	
 }
