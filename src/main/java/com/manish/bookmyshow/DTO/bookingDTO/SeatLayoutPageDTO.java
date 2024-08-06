@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.manish.bookmyshow.model.ShowSeat;
 
 public class SeatLayoutPageDTO {
@@ -14,7 +17,7 @@ public class SeatLayoutPageDTO {
 	String theatreName;
 	String cityName;
 	LocalDateTime startTime;
-	Map<SlCategoryDTO, SlSeatDTO> categSeatMap;
+	List<CategSeatDTO> categSeatsList;
 	public Long getShowId() {
 		return showId;
 	}
@@ -51,14 +54,14 @@ public class SeatLayoutPageDTO {
 	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
-	public Map<SlCategoryDTO, SlSeatDTO> getCategSeatMap() {
-		return categSeatMap;
+	public List<CategSeatDTO> getCategSeatsList() {
+		return categSeatsList;
 	}
-	public void setCategSeatMap(Map<SlCategoryDTO, SlSeatDTO> categSeatMap) {
-		this.categSeatMap = categSeatMap;
+	public void setCategSeatsList(List<CategSeatDTO> categSeatsList) {
+		this.categSeatsList = categSeatsList;
 	}
 	public SeatLayoutPageDTO(Long showId, String movieName, String screenName, String theatreName, String cityName,
-			LocalDateTime startTime, Map<SlCategoryDTO, SlSeatDTO> categSeatMap) {
+			LocalDateTime startTime, List<CategSeatDTO> categSeatsList) {
 		super();
 		this.showId = showId;
 		this.movieName = movieName;
@@ -66,11 +69,8 @@ public class SeatLayoutPageDTO {
 		this.theatreName = theatreName;
 		this.cityName = cityName;
 		this.startTime = startTime;
-		this.categSeatMap = categSeatMap;
+		this.categSeatsList = categSeatsList;
 	}
-	
-	
-	
 	public SeatLayoutPageDTO() {
 		super();
 	}
@@ -78,8 +78,12 @@ public class SeatLayoutPageDTO {
 	public String toString() {
 		return "SeatLayoutPageDTO [showId=" + showId + ", movieName=" + movieName + ", screenName=" + screenName
 				+ ", theatreName=" + theatreName + ", cityName=" + cityName + ", startTime=" + startTime
-				+ ", categSeatMap=" + categSeatMap + "]";
+				+ ", categSeatsList=" + categSeatsList + "]";
 	}
+	
+	
+	
+	
 	
 	
 	

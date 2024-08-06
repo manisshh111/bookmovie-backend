@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manish.bookmyshow.DTO.bookingDTO.BookingDTO;
+import com.manish.bookmyshow.DTO.bookingDTO.CategSeatDTO;
 import com.manish.bookmyshow.DTO.bookingDTO.SeatLayoutPageDTO;
 import com.manish.bookmyshow.DTO.bookingDTO.SlCategoryDTO;
 import com.manish.bookmyshow.DTO.bookingDTO.SlSeatDTO;
@@ -83,48 +84,41 @@ public class BookingController {
 		
 		List<ShowSeat> showsSeats = showSeatRepository.findByShowId(showId);
 		
-		Map<SlCategoryDTO, SlSeatDTO> categSeatMap = new HashMap<SlCategoryDTO, SlSeatDTO>();
-		//get List<ShowSeat> with unique categoryID
+		List<CategSeatDTO> categSeatsList = new ArrayList<CategSeatDTO>();
+		
 		List<ShowSeat> showSeatsUniqueCat= getUniqueCategoryShowSeats(showsSeats);
 		for(ShowSeat s: showSeatsUniqueCat) {
+			
+			CategSeatDTO categSeatDTO = new CategSeatDTO();
+			
 			SlCategoryDTO slcdto = new SlCategoryDTO();
 			slcdto.setCategoryId(s.getCategory().getId());
 			slcdto.setCategoryName(s.getCategory().getCategoryName());
 			slcdto.setPrice(s.getPrice());
 			
-			SlSeatDTO slsdto = new SlSeatDTO();
-			Map<Character, List<ShowSeat>> rowSeatsMap = new HashMap<Character, List<ShowSeat>>();
-			//find unique rows
+			categSeatDTO.setCategPrice(slcdto);
+			
+			List<SlSeatDTO> rowVsSeats = new ArrayList<SlSeatDTO>();
+			
+	
 			List<Character> rows = getUniqueRows(showsSeats);
 			for(Character row: rows) {
+				SlSeatDTO slSeatDTO = new SlSeatDTO();
+				slSeatDTO.setRow(row);
 				List<ShowSeat> seats = getSeatsByRowAndCategory(showsSeats, row, s.getCategory().getId());
 				seats.sort(Comparator.comparingInt(seat -> Integer.parseInt(seat.getSeatNumber().substring(1))));
-				rowSeatsMap.put(row, seats);
+				slSeatDTO.setShowSeats(seats);
+				 if (!slSeatDTO.getShowSeats().isEmpty()) {
+		                rowVsSeats.add(slSeatDTO);
+		            }
+
 			}
 			
-			rowSeatsMap.entrySet().removeIf(entry -> entry.getValue().isEmpty());
-			slsdto.setRowVsSeatsList(rowSeatsMap);
-			//iterate over rows
-			  //find all showSeats where seat number starts with row
-			  //add to map
-			categSeatMap.put(slcdto, slsdto);
+			categSeatDTO.setRowVsSeats(rowVsSeats);
+			categSeatsList.add(categSeatDTO);
 		}
 		
-		slpdto.setCategSeatMap(categSeatMap);
-		//iterate over list
-		//Create SlSeatDTO object
-		  //find 
-		 // Sort categSeatMap by SlCategoryDTO.price in descending order
-	    LinkedHashMap<SlCategoryDTO, SlSeatDTO> sortedCategSeatMap = categSeatMap.entrySet().stream()
-	        .sorted((entry1, entry2) -> entry2.getKey().getPrice().compareTo(entry1.getKey().getPrice()))
-	        .collect(Collectors.toMap(
-	            Map.Entry::getKey,
-	            Map.Entry::getValue,
-	            (e1, e2) -> e1,
-	            LinkedHashMap::new
-	        ));
-	    
-	    slpdto.setCategSeatMap(sortedCategSeatMap);
+		slpdto.setCategSeatsList(categSeatsList);
 		return slpdto;
 	}
 	
@@ -132,26 +126,23 @@ public class BookingController {
 	public List<ShowSeat> getUniqueCategoryShowSeats(List<ShowSeat> showSeats) {
 	    Map<Long, ShowSeat> uniqueCategoryShowSeatsMap = showSeats.stream()
 	        .collect(Collectors.toMap(
-	            showSeat -> showSeat.getCategory().getId(), // keyMapper: category ID
-	            showSeat -> showSeat,                      // valueMapper: showSeat object
-	            (existing, replacement) -> existing        // mergeFunction: keep existing showSeat if category ID is duplicated
+	            showSeat -> showSeat.getCategory().getId(), 
+	            showSeat -> showSeat,                      
+	            (existing, replacement) -> existing        
 	        ));
 
 	    return new ArrayList<>(uniqueCategoryShowSeatsMap.values());
 	}
 	
 	public List<Character> getUniqueRows(List<ShowSeat> showSeats) {
-	    // Use a stream to map each ShowSeat to the first character of its seatNumber and collect unique values into a set
+	    
 	    Set<Character> uniqueRowsSet = showSeats.stream()
 	        .map(showSeat -> showSeat.getSeatNumber().charAt(0))
 	        .collect(Collectors.toSet());
-
-	    // Convert the set to a list to maintain the return type as List<Character>
 	    return new ArrayList<>(uniqueRowsSet);
 	}
 	
 	public List<ShowSeat> getSeatsByRowAndCategory(List<ShowSeat> showSeats, char row, Long categoryId) {
-	    // Use a stream to filter ShowSeat objects where the seatNumber starts with the specified row character and categoryId matches
 	    return showSeats.stream()
 	        .filter(showSeat -> showSeat.getSeatNumber().charAt(0) == row && showSeat.getCategory().getId().equals(categoryId))
 	        .collect(Collectors.toList());

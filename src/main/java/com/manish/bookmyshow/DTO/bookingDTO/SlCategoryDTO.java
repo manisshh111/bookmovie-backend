@@ -1,5 +1,11 @@
 package com.manish.bookmyshow.DTO.bookingDTO;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.manish.bookmyshow.SlCategoryDTOSerializer;
+
 public class SlCategoryDTO {
 
 	Long categoryId;
@@ -32,9 +38,9 @@ public class SlCategoryDTO {
 	public SlCategoryDTO() {
 		super();
 	}
-	@Override
+	 @Override
 	public String toString() {
-		return "SlCategoryDTO [categoryId=" + categoryId + ", categoryName=" + categoryName + ", price=" + price + "]";
+		return "{categoryId=" + categoryId + ", categoryName=" + categoryName + ", price=" + price + "}";
 	}
 	
 	
