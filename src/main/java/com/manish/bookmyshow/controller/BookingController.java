@@ -15,14 +15,19 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manish.bookmyshow.DTO.bookingDTO.BookingDTO;
 import com.manish.bookmyshow.DTO.bookingDTO.CategSeatDTO;
+import com.manish.bookmyshow.DTO.bookingDTO.PaymentPageDTO;
 import com.manish.bookmyshow.DTO.bookingDTO.SeatLayoutPageDTO;
 import com.manish.bookmyshow.DTO.bookingDTO.SlCategoryDTO;
 import com.manish.bookmyshow.DTO.bookingDTO.SlSeatDTO;
+import com.manish.bookmyshow.DTO.bookingDTO.Ticket;
 import com.manish.bookmyshow.model.Show;
 import com.manish.bookmyshow.model.ShowSeat;
 import com.manish.bookmyshow.repository.CityRepository;
@@ -31,6 +36,7 @@ import com.manish.bookmyshow.repository.ScreenRepository;
 import com.manish.bookmyshow.repository.SeatRepository;
 import com.manish.bookmyshow.repository.ShowRepository;
 import com.manish.bookmyshow.repository.ShowSeatRepository;
+import com.manish.bookmyshow.service.BookingServiceImpl;
 
 @RestController
 @RequestMapping("/api/v1/booking")
@@ -52,6 +58,9 @@ public class BookingController {
 	
 	@Autowired
 	ShowSeatRepository showSeatRepository;
+	
+	@Autowired
+	BookingServiceImpl bookingService;
 	
 	
 	
@@ -147,6 +156,42 @@ public class BookingController {
 	        .filter(showSeat -> showSeat.getSeatNumber().charAt(0) == row && showSeat.getCategory().getId().equals(categoryId))
 	        .collect(Collectors.toList());
 	}
+	
+	
+	@PostMapping("/lockSeats")
+	public String lockSeats(@RequestBody List<ShowSeat> selectedSeats){
+	
+		List<Long> showSeatIds = new ArrayList<Long>();
+		selectedSeats.forEach(seat->{
+			showSeatIds.add(seat.getId());
+		});
+		
+		String sessionId = bookingService.lockSeats(showSeatIds);
+		
+		
+		return sessionId;
+	}
+	
+	@PostMapping("/bookwithsessionid")
+	public Ticket bookSeats(@RequestBody PaymentPageDTO pdto){
+	
+		return bookingService.bookSeats(pdto);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

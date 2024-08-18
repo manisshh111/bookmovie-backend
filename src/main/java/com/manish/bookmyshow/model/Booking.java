@@ -45,7 +45,81 @@ public class Booking {
 	@NotEmpty(message = "Email cannot be empty")
 	private String email;
 	
-	 @Size(min=0,max=10)
+	
 	 String mobileNo;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Show getShow() {
+		return show;
+	}
+
+	public void setShow(Show show) {
+		this.show = show;
+	}
+
+	public List<ShowSeat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<ShowSeat> seats) {
+		this.seats = seats;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public Booking(Long id, Show show, List<ShowSeat> seats, Payment payment,
+			@Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$") @NotEmpty(message = "Email cannot be empty") String email,
+			@Size(min = 0, max = 10) String mobileNo) {
+		super();
+		this.id = id;
+		this.show = show;
+		this.seats = seats;
+		this.payment = payment;
+		this.email = email;
+		this.mobileNo = mobileNo;
+	}
+
+	public Booking() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Booking [id=" + id + ", show=" + show + ", seats=" + seats + ", payment=" + payment + ", email=" + email
+				+ ", mobileNo=" + mobileNo + "]";
+	}
+	 
+	 
+	 
+	 
 
 }

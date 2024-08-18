@@ -1,5 +1,7 @@
 package com.manish.bookmyshow.model;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -32,16 +34,25 @@ public class ShowSeat {
 	@JoinColumn(name = "show_id")
 	@JsonIgnore
 	Show show;
-	
+	 
 	@ManyToOne
 	@JoinColumn(name = "booking_id")
 	Booking booking;
 	
 	int price;
 	
+	boolean isLocked = false;
+
+	LocalDateTime lockTime;
+	
+	String sessionId;
+	
+	
 	@Column(name = "is_booked")
 	boolean isBooked;
 
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -97,9 +108,59 @@ public class ShowSeat {
 	public void setBooked(boolean isBooked) {
 		this.isBooked = isBooked;
 	}
+	
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean locked) {
+		isLocked = locked;
+	}
+
+	public LocalDateTime getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(LocalDateTime lockTime) {
+		this.lockTime = lockTime;
+	}
+
+	
+
+    public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public void lockSeat(String sessionId) {
+        this.isLocked = true;
+        this.lockTime = LocalDateTime.now();
+        this.sessionId=sessionId;
+    }
+
+
+    public void unlockSeat() {
+        this.isLocked = false;
+        this.lockTime = null;
+    }
+
+
+    public boolean isLockExpired() {
+        return isLocked && lockTime != null && lockTime.plusMinutes(5).isBefore(LocalDateTime.now());
+    }
+
+
+    public void checkAndReleaseLock() {
+        if (isLockExpired()) {
+            unlockSeat();
+        }
+    }
 
 	public ShowSeat(Long id, String seatNumber, Category category, Show show, Booking booking, int price,
-			boolean isBooked) {
+			boolean isLocked, LocalDateTime lockTime, boolean isBooked) {
 		super();
 		this.id = id;
 		this.seatNumber = seatNumber;
@@ -107,6 +168,8 @@ public class ShowSeat {
 		this.show = show;
 		this.booking = booking;
 		this.price = price;
+		this.isLocked = isLocked;
+		this.lockTime = lockTime;
 		this.isBooked = isBooked;
 	}
 
@@ -117,9 +180,13 @@ public class ShowSeat {
 	@Override
 	public String toString() {
 		return "ShowSeat [id=" + id + ", seatNumber=" + seatNumber + ", category=" + category + ", show=" + show
-				+ ", booking=" + booking + ", price=" + price + ", isBooked=" + isBooked + "]";
+				+ ", booking=" + booking + ", price=" + price + ", isLocked=" + isLocked + ", lockTime=" + lockTime
+				+ ", isBooked=" + isBooked + "]";
 	}
-	
+    
+    
+    
+
 	
 	
 	
