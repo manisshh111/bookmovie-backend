@@ -26,7 +26,7 @@ public class BookmyshowApplication {
 	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	    final CorsConfiguration config = new CorsConfiguration();
 	    config.setAllowCredentials(true);
-	    config.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "https://bookmovie-frontend.vercel.app"));
+	    config.addAllowedOriginPattern("*");
 	    config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
 	    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
 	    source.registerCorsConfiguration("/**", config);
